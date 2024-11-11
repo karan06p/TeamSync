@@ -31,9 +31,6 @@ export async function POST(request: Request){
             if(!usernameExists && !emailExists){
                 //if user not exists already
                 const hashedPassword = await hashPassword(password); 
-                
-    
-    
                 const newUser = new UserModel({
                     firstName,
                     lastName,

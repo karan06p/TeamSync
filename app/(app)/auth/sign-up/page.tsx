@@ -60,7 +60,7 @@ const SignUpPage = () => {
           password: values.password
         })
         if(result.status === 200){
-          router.replace("/auth/verify-email")
+          router.replace(`/auth/verify-email/${values.username}`)
         }else{
           console.log("User not found", result.status)
         }

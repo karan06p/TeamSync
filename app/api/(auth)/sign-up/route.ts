@@ -5,11 +5,13 @@ import dbConnect from "@/lib/dbConnect";
 import { sendVerificationEmail } from "@/lib/SendVerificationEmail";
 import UserModel from "@/models/User.model";
 
+
+// TODO: Optimize the logic
 export async function POST(request: Request){
     await dbConnect()
 
     try {
-        const { username, email, password} = await request.json();
+        const { firstName, lastName, username, email, password} = await request.json();
     
         // check if user exists by username or email
         const usernameExists = await UserModel.findOne({username})
@@ -18,7 +20,7 @@ export async function POST(request: Request){
             return ApiError("Username already taken", 409)
         }
         if(emailExists){
-                return ApiError("Email already exists, please login", 409)
+            return ApiError("Email already exists, please login", 409)
         }
         
         const otp = Math.floor(100000 + Math.random() * 900000).toString()
@@ -33,6 +35,8 @@ export async function POST(request: Request){
     
     
                 const newUser = new UserModel({
+                    firstName,
+                    lastName,
                     username,
                     email,
                     password: hashedPassword,
